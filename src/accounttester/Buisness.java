@@ -10,6 +10,7 @@ package accounttester;
  *
  * @author etwat3497
  */
-public class Buisness {
+//Sublass of account class
+public class Buisness extends Account{
     
 }

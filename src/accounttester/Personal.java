@@ -10,6 +10,7 @@ package accounttester;
  *
  * @author etwat3497
  */
-public class Personal {
+//Subclass of Account class
+public class Personal extends Account{
     
 }

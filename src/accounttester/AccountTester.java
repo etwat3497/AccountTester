@@ -21,24 +21,49 @@ public class AccountTester {
         
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("What is the name of your bank?");
+        
+        //EDIT COMMENTS FOR THE NAME OF CUSTOMER AND FIX ISNUMERIC - COPIED FROM MYBANKTESTER ON GIT HUB
+        System.out.println("What is your name?");
+        String bankName = "";
+        Boolean nameLoop = false;
+
+        //Run while loop to catch bad user input
+        while(!nameLoop){
+            System.out.println("What is the name of your bank?");
+            bankName = sc.nextLine();
+            
+            //If the bank name is only numbers catch bad user input
+            if(isNumeric(bankName)){
+                System.out.println("\nPlease input a valid bank name");
+            }
+            //If the bank name is empty
+            else if (bankName.equals("")) {
+                System.out.println("\nPlease input a bank name");
+            }
+            //End the while loop
+            else{
+                nameLoop = true;
+            }
+        }
+        
+
         int accountType = 0;
-        Boolean bankNameLoop = false;
+        Boolean accountTypeLoop = false;
 
         try{
             //Run while loop to catch bad user input
-            while(!bankNameLoop){
+            while(!accountTypeLoop){
                 System.out.println("What type of account do you have? Input 1 for a personal account"
                         + "or 2 for a buisness account.");
                 accountType = Integer.parseInt(sc.nextLine());
 
-                //If the bank name is only numbers catch bad user input
+                //If the account type is not 1 or 2
                 if(accountType<1 || accountType>2){
                     System.out.println("\nPlease input 1 or 2");
                 }
                 //End the while loop
                 else{
-                    bankNameLoop = true;
+                    accountTypeLoop = true;
                 }
             }
         }

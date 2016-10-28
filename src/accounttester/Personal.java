@@ -13,4 +13,17 @@ package accounttester;
 //Subclass of Account class
 public class Personal extends Account{
     
+    public Personal(){
+        super(0,"Unknown user name",100,2); //Return base values for variables
+    }
+    
+    public Personal(double bal, String name){
+        super(bal, name,100,2);
+    }
+    
+    
+    
+    
+    
+    
 }

@@ -22,22 +22,22 @@ public class AccountTester {
         Scanner sc = new Scanner(System.in);
 
         
-        //EDIT COMMENTS FOR THE NAME OF CUSTOMER AND FIX ISNUMERIC - COPIED FROM MYBANKTESTER ON GIT HUB
+        
         System.out.println("What is your name?");
-        String bankName = "";
+        String userName = "";
         Boolean nameLoop = false;
 
         //Run while loop to catch bad user input
         while(!nameLoop){
             System.out.println("What is the name of your bank?");
-            bankName = sc.nextLine();
+            userName = sc.nextLine();
             
-            //If the bank name is only numbers catch bad user input
-            if(isNumeric(bankName)){
+            //If the user name is only numbers catch bad user input
+            if(isNumeric(userName)){
                 System.out.println("\nPlease input a valid bank name");
             }
-            //If the bank name is empty
-            else if (bankName.equals("")) {
+            //If the user name is empty
+            else if (userName.equals("")) {
                 System.out.println("\nPlease input a bank name");
             }
             //End the while loop
@@ -97,13 +97,81 @@ public class AccountTester {
         }
         
         if(accountType == 1){
-            Personal object = new Personal(initialBalance);
+            Personal object = new Personal(initialBalance, userName);
         }
         
         else if(accountType == 2){
-            Buisness object = new Buisness(initialBalance);
+            Buisness object = new Buisness(initialBalance, userName);
+        }
+        
+        
+        String userChoice = "";
+        boolean done = false;
+        //Run in a while loop to catch bad user input and continually run this until done is typed
+        while(!done){
+            System.out.println("Please input 'Deposit' to put money into your account, 'Withdrawl' to withdraw money from the account, "
+            + "'Display' to display the current balance, or 'Interest' to calculate interest over a certain interval of time, and 'Done' to close the program");
+
+            userChoice = sc.nextLine();
+
+            if(userChoice.equalsIgnoreCase("Deposit")){
+                System.out.println("Please input the deposit amount");
+                
+                try{
+                    //If good user input run deposit method in specific account class
+                    double depositValue = Double.parseDouble(sc.nextLine());
+                    object.deposit(depositValue);
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Please enter a numeric value");
+                }
+                
+            }
+
+            else if(userChoice.equalsIgnoreCase("Withdrawl")){
+                System.out.println("Please input the withdrawl amount");
+
+                try{
+                    //If good user input run withdraw method in specific account class
+                    double withdrawlValue = Double.parseDouble(sc.nextLine()); 
+                    object.withdrawl(withdrawlValue);
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Please enter a numeric value");
+                } 
+            }
+
+            else if(userChoice.equalsIgnoreCase("Display")){
+                object.displayBalance();
+                System.out.println("Balance displayed successfully!");
+            }
+
+            else if(userChoice.equalsIgnoreCase("Done")){
+                //End program
+                System.out.println("Thank you, "+userName);
+                done = true;
+            }
+            else{
+                System.out.println("\nUnknown command. Please type in one of the identified keywords.");
+            }
         }
     
+        
+        
+    }
+   /**
+    * pre: String bank name
+    * post: Boolean true or false
+    * Method to check if the bank name string has only numbers in it
+    */
+    public static boolean isNumeric(String str){
+    try{
+        double d = Double.parseDouble(str);
+    }
+    catch(NumberFormatException e){
+        return false;
+    }
+    return true;
     }
     
 }

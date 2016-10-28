@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Created by Ethan Watt
+ * On October 28,2016
+ * Designed to demonstrate superclasses and subclasses in the creation of an account program
  */
 
 package accounttester;
@@ -14,48 +14,21 @@ import java.util.Scanner;
  */
 public class AccountTester {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-        Scanner sc = new Scanner(System.in);
-
-        
-        
-        System.out.println("What is your name?");
-        String userName = "";
-        Boolean nameLoop = false;
-
-        //Run while loop to catch bad user input
-        while(!nameLoop){
-            System.out.println("What is the name of your bank?");
-            userName = sc.nextLine();
-            
-            //If the user name is only numbers catch bad user input
-            if(isNumeric(userName)){
-                System.out.println("\nPlease input a valid bank name");
-            }
-            //If the user name is empty
-            else if (userName.equals("")) {
-                System.out.println("\nPlease input a bank name");
-            }
-            //End the while loop
-            else{
-                nameLoop = true;
-            }
-        }
-        
-
+    public static Account assignAccount(){
+        //Declare variables
         int accountType = 0;
-        Boolean accountTypeLoop = false;
+        Scanner input = new Scanner(System.in);
+        double initialBalance = 0;
+        
+        String userName;
+        Boolean accountTypeLoop = true;
 
         try{
             //Run while loop to catch bad user input
-            while(!accountTypeLoop){
+            while(accountTypeLoop){
                 System.out.println("What type of account do you have? Input 1 for a personal account"
-                        + "or 2 for a buisness account.");
-                accountType = Integer.parseInt(sc.nextLine());
+                        + " or 2 for a buisness account.");
+                accountType = Integer.parseInt(input.nextLine());
 
                 //If the account type is not 1 or 2
                 if(accountType<1 || accountType>2){
@@ -63,7 +36,7 @@ public class AccountTester {
                 }
                 //End the while loop
                 else{
-                    accountTypeLoop = true;
+                    accountTypeLoop = false;
                 }
             }
         }
@@ -71,46 +44,72 @@ public class AccountTester {
             //Catch bad user input
             System.out.println("Please input an integer value.");
         }
-
-
-        double initialBalance = 0;
-        Boolean run = false;
-
-        //Run in while loop to catch bad user input when getting initial balance
-        while(!run){
+        
+        
+        Boolean initialBalLoop = true;
+        //Determine initial balance
+        while(initialBalLoop){
             try{
                 System.out.println("What is your initial balance?");
-                initialBalance = Double.parseDouble(sc.nextLine());
+                initialBalance = Double.parseDouble(input.nextLine());
 
-                if(initialBalance<0){
-                    System.out.println("\nPlease input a positive value.");
+                //Initial balance isn't high enough; continue while loop
+                if(accountType == 1 && initialBalance<100){
+                     System.out.println("Please input $100 or more.");
                 }
-                else{
-                    //End while loop
-                    System.out.println("Initial balance recorded successfully.");
-                    run = true;
+                else if(accountType == 2 && initialBalance<500){
+                    System.out.println("Please input $500 or more.");
+                }
+
+                //Stop the while loop
+                else if(accountType == 1 && initialBalance>=100){
+                    initialBalLoop = false;
+                }
+                else if(accountType == 2 && initialBalance>=500){
+                    initialBalLoop = false;
                 }
             }
             catch(NumberFormatException e){
-                System.out.println("\nPlease input a number value");
+                System.out.println("Invalid input!");
             }
         }
         
+
+        //Get name
+        System.out.println("What is your name?");
+        userName = input.nextLine();
+        
+        //Assign the type of account to customer object
         if(accountType == 1){
-            Personal object = new Personal(initialBalance, userName);
+            return(new Personal(initialBalance,userName));
         }
-        
-        else if(accountType == 2){
-            Buisness object = new Buisness(initialBalance, userName);
+        else{
+            return(new Buisness(initialBalance, userName));        
         }
+    }
+    
+    
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
         
-        
+        Scanner sc = new Scanner(System.in);
+
+        //Create a customer object in the class account and then assign it to a subclass
+        Account customer;
+        customer = assignAccount();
+
+
+       
         String userChoice = "";
         boolean done = false;
         //Run in a while loop to catch bad user input and continually run this until done is typed
         while(!done){
             System.out.println("Please input 'Deposit' to put money into your account, 'Withdrawl' to withdraw money from the account, "
-            + "'Display' to display the current balance, or 'Interest' to calculate interest over a certain interval of time, and 'Done' to close the program");
+            + "'Display' to display the current balance, or 'Done' to close the program");
 
             userChoice = sc.nextLine();
 
@@ -120,7 +119,7 @@ public class AccountTester {
                 try{
                     //If good user input run deposit method in specific account class
                     double depositValue = Double.parseDouble(sc.nextLine());
-                    object.deposit(depositValue);
+                    customer.deposit(depositValue);
                 }
                 catch(NumberFormatException e){
                     System.out.println("Please enter a numeric value");
@@ -134,7 +133,7 @@ public class AccountTester {
                 try{
                     //If good user input run withdraw method in specific account class
                     double withdrawlValue = Double.parseDouble(sc.nextLine()); 
-                    object.withdrawl(withdrawlValue);
+                    customer.withdrawl(withdrawlValue);
                 }
                 catch(NumberFormatException e){
                     System.out.println("Please enter a numeric value");
@@ -142,36 +141,20 @@ public class AccountTester {
             }
 
             else if(userChoice.equalsIgnoreCase("Display")){
-                object.displayBalance();
+                customer.displayBalance();
                 System.out.println("Balance displayed successfully!");
             }
 
             else if(userChoice.equalsIgnoreCase("Done")){
                 //End program
-                System.out.println("Thank you, "+userName);
+                System.out.println("Good bye!");
                 done = true;
             }
             else{
                 System.out.println("\nUnknown command. Please type in one of the identified keywords.");
             }
         }
-    
-        
-        
     }
-   /**
-    * pre: String bank name
-    * post: Boolean true or false
-    * Method to check if the bank name string has only numbers in it
-    */
-    public static boolean isNumeric(String str){
-    try{
-        double d = Double.parseDouble(str);
-    }
-    catch(NumberFormatException e){
-        return false;
-    }
-    return true;
-    }
+
     
 }

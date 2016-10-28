@@ -12,24 +12,24 @@ import java.text.DecimalFormat;
  *
  * @author etwat3497
  */
-public class Account {
+abstract public class Account {
+    //Declare global variables
     private String name;
     private double bal;
     private double minBalance;
     private double accountCharge;
     DecimalFormat x = new DecimalFormat("##.##");
 
+  /**
+   * pre: Initial balance, customer name, minimum balance, account charge
+   * post: none
+   * Constructor of superclass to assign values to variables for object
+   */
     public Account(double initialBal, String userNme, double minBal, double accCharge){
         bal = initialBal;
         name = userNme;
-        
-        if(bal<minBalance){
-                bal -= accountCharge;
-                System.out.println("You are lower than your minimum balance! Your account has been deducted $"+accountCharge+". Your new"
-                        + "balance is $"+bal+".");
-            }
-        
-        
+        minBalance = minBal;
+        accountCharge = accCharge; 
     }
     
   /**
@@ -50,7 +50,7 @@ public class Account {
         
         if(bal<minBalance){
                 bal -= accountCharge;
-                System.out.println("You are lower than your minimum balance! Your account has been deducted $"+accountCharge+". Your new"
+                System.out.println("You are lower than your minimum balance, "+name+"! Your account has been deducted $"+accountCharge+". Your new "
                         + "balance is $"+bal+".");
             }
     }
@@ -75,10 +75,10 @@ public class Account {
             bal -= withdrawlAmount;
             System.out.println("\nWithdrawl recorded successfully");
         }
-        
+
         if(bal<minBalance){
             bal -= accountCharge;
-            System.out.println("You are lower than your minimum balance! Your account has been deducted $"+accountCharge+". Your new"
+            System.out.println("You are lower than your minimum balance, "+name+"! Your account has been deducted $"+accountCharge+". Your new "
                     + "balance is $"+bal+".");
         }
             
@@ -92,7 +92,7 @@ public class Account {
    * Method to display the current balance
    */
     public void displayBalance(){
-        System.out.println("The current balance is $"+x.format(bal)+".");
+        System.out.println("The current balance is $"+x.format(bal)+", "+name+".");
     }
         
 }

@@ -12,11 +12,22 @@ package accounttester;
  */
 //Subclass of Account class
 public class Personal extends Account{
-    
+
+  /**
+   * pre: none
+   * post: none
+   * Default constructor to assign base values to variables
+   */
     public Personal(){
         super(0,"Unknown user name",100,2); //Return base values for variables
     }
     
+    
+  /**
+   * pre: Initial balance and customer name
+   * post: none
+   * Constructor to look for initial balance and customer name and return to the account superclass
+   */
     public Personal(double bal, String name){
         super(bal, name,100,2);
     }

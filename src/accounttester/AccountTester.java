@@ -88,16 +88,16 @@ public class AccountTester {
             return(new Personal(initialBalance,userName));
         }
         else{
-            return(new Buisness(initialBalance, userName));        
-        }
-    }
-    
-    
-    
-    
-    /**
-     * @param args the command line arguments
-     */
+            return(new Buisness(initialBalance, userName));
+        } 
+    } 
+
+
+   /**
+    * pre: String array
+    * post: void
+    * Main method to have the account tester communicate with the account class and it's subclasses
+    */
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);

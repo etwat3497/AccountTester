@@ -5,7 +5,7 @@
  */
 
 package accounttester;
-
+//Add imports
 import java.util.Scanner;
 
 /**
@@ -14,6 +14,10 @@ import java.util.Scanner;
  */
 public class AccountTester {
 
+   /* Returns a selected instrument.
+    * pre: none
+    * post: An instrument object has been returned.
+    */
     public static Account assignAccount(){
         //Declare variables
         int accountType = 0;
